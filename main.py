@@ -1,31 +1,21 @@
-import base64
-from openai import OpenAI
+import rasterio
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import ndimage
+from skimage import filters
 
-client = OpenAI()
+# Load your elevation data
+with rasterio.open('rasters_COP90/output_hh.tif') as src:
+    elevation = src.read(1)
+    bounds = src.bounds
+    
+print(f"Data shape: {elevation.shape}")
+print(f"Elevation range: {elevation.min():.1f}m to {elevation.max():.1f}m")
+print(f"Geographic bounds: {bounds}")
 
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
-
-image_path =  # here the dataset will be fed in(ofc implementation will change lol)
-
-base64_image = encode_image(image_path)
-
-
-response = client.responses.create(
-    model="gpt-4.1",
-    input=[
-        {
-            "role": "user",
-            "content": [
-                { "type": "input_text", "text": "what's in this image?" },
-                {
-                    "type": "input_image",
-                    "image_url": f"data:image/jpeg;base64,{base64_image}", # might need to change shit here also
-                },
-            ],
-        }
-    ],
-)
-
-print(response.output_text)
+# Basic visualization
+plt.figure(figsize=(10, 8))
+plt.imshow(elevation, cmap='terrain')
+plt.colorbar(label='Elevation (m)')
+plt.title('Your Amazon DEM Data')
+plt.show()
