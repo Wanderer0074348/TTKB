@@ -90,4 +90,46 @@ By following the steps above, we have two files -
 
 
 Now, that we have both, the known and unknown data, we can train a model. We decided to run a clustering algorithm and report all those points that fall in the same clusters as the coordinates of known geoglyphs. We chose to go with hdbscan because our pca revealed non complex patterns.
-Also, with over 17 million rows, we decided to remove to reduce the area of study from the entirety of Brazilian Aamazon to the state of Amazonas in Brazils and a few surrounding areas, which resulted in around 7.5 million rows.
+Also, with over 17 million rows, we decided to reduce the area of study from the entirety of Brazilian Aamazon to the state of Amazonas in Brazil and a few surrounding areas, which resulted in around 7.5 million rows.
+
+## Clustering_PCA.py
+performs PCA
+Output :
+Explained variance ratio: [0.70188004 0.12310877]
+
+PC1 loadings:
+  temp_seasonality: 0.38
+  temp_annual_range: 0.38
+  precip_driest_quarter: 0.38
+  max_temp_warmest_month: 0.38
+  annual_precipitation: 0.38
+  precip_coldest_quarter: 0.38
+  isothermality: 0.38
+  elevation: -0.06
+  sand_frac_pct: -0.00
+  gravel_frac_pct: -0.00
+
+PC2 loadings:
+  temp_seasonality: 0.01
+  temp_annual_range: 0.01
+  precip_driest_quarter: 0.01
+  max_temp_warmest_month: 0.01
+  annual_precipitation: 0.01
+  precip_coldest_quarter: 0.01
+  isothermality: 0.01
+  elevation: 0.35
+  sand_frac_pct: 0.67
+  gravel_frac_pct: 0.66
+  
+![image](https://github.com/user-attachments/assets/45640ef4-323f-41ff-be61-06b77aad0498)
+
+## reducing_dataset.py
+Reduced area of study by keeping a cap on the latitude and longitude values
+This script reduced the dataset from having 17 million rows to 7.45 million
+
+## Clustering_final.py
+
+The model runs....minimum of 200 points required for a cluster, and if a point lies in the same cluster as that of known geoglyph the probability should be more than 0.7
+
+Resulted in a file with 107k potential points
+
