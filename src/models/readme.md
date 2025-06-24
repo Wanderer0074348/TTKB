@@ -86,6 +86,8 @@ same code as extract_soildata.py, except here, it edits the amazon_known_geoglyp
 # Model Training
 By following the steps above, we have two files - 
 1. amazon_known_geoglyph_data.csv - with data about locations that are known to be geoglyphs
-2. amazon_unknown_geogleyph_data.csv - with data about all the other locations in Brazilian Amazon
+2. amazon_unknown_geogleyph_data.csv - with data about all the other locations in Brazilian Amazon.
+
+
 Now, that we have both, the known and unknown data, we can train a model. We decided to run a clustering algorithm and report all those points that fall in the same clusters as the coordinates of known geoglyphs. We chose to go with hdbscan because our pca revealed non complex patterns.
 Also, with over 17 million rows, we decided to remove to reduce the area of study from the entirety of Brazilian Aamazon to the state of Amazonas in Brazils and a few surrounding areas, which resulted in around 7.5 million rows.
