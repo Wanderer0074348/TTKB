@@ -61,3 +61,11 @@ Converts the amazon_500m_latlon.shp file to amazon_500m_features.csv
 ## extracting_data.py
 This code deals with extracting the bioclimatic variables from the [worldclim dataset](https://worldclim.org/data/worldclim21.html). It also extracts elevation data from a dataset I found on [kaggle](https://www.kaggle.com/datasets/minervasdatalab/amazon-basin-dem). So we are taking 7 tif files from the worldclim dataset and 1 tif file from the dataset on kaggle. Each tif file represents a variable, like elevation, temperature seasonality, etc. We extract data for each of these variables by feeding the coordinates that we found earlier. The reason why we converted all our coordinates above to EPSG:4326 is because these tif files are in that CRS. It writes the new CSV file with the latitude, longitude and the new columns into a file called amazon_500m_with_worldclim_vars.csv
 
+## Soil data
+To get the remaining two variables, sand fraction and gravel content, we used the [hwsd dataset](https://www.fao.org/soils-portal/data-hub/soil-maps-and-databases/harmonized-world-soil-database-v20/en/). This was a bit tricky. Firstly, the files downloaded from here is a bil file, not a tif file and that too, in a different crs than EPSG:4326. So first, we had to write a script to convert the bil file's crs and store it in a tif file. Another tricky part is, when we enter a pair of coordinates, we dont get data for a particular variable, we only get a mu_key(map unit key), which is a primary column in an associated database called hwsd.csv. This csv file contains several soil data variables and the value for each mu_key, which is the primary column. So the following two scripts perform the tasks mentioned here
+
+## bil_data_to_4326.py
+converts hwsd2.bil's crs to 4326 aqnd reporjects the data to a tif file called HWSD2_Map_Unit_4326.tif
+
+## extract_soildata.py
+extracts soil data for each coordinate by extracting the corresponding mu_key from the tif file and then using this mu_key in the hwsd_data.csv to get the required variables - soil fraction and gravel content. Another tricky part here is that in the hwsd_data.csv, there are multiple rows with the same mu_key, so we take the average of values for a particular mu_key
