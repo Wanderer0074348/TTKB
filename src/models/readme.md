@@ -18,8 +18,13 @@ EPSG:4674  --->  This is the coordinaate reference system of the downloaded file
 
 ## Griddy.py
 This file takes the entire map from the Limites_Amazonia_Legal_2022.shp file, and divides it into smaller box grids, each of area 36 sq.km (6000 m X 6000 m squares). It finally writes the new boxes to a file called amazon_grid.shp, which will be visualised in viz2.py. A total of 142401 boxes were generated.
-To divide the file into grids of equal size (area = 36sq. km), we change the CRS from EPSG:4674 to EPSG:5880
+
+**Idea behind this** - Our initial idea was to divide the Brazilian Amazon into grids of areas 36sq.km, adn then find the centroid of each of these grids. Then for each location, we would extract the data - (bioclimatic variables, soil data, elevation, etc.) and then compare them with the properties of known geoglyphs
+
+To divide the file into grids of equal size (area = 36sq. km), we change the CRS from EPSG:4674 to EPSG:5880.
+
 Why are we reprojecting to EPSG:5880?
+
 The original file was in A geographic CRS (EPSG:4674) where the coordinates are in decimal degrees. This makes the distance and area calculations non uniform and distorted. EPSG:5880 is a Brazilian equal area projection CRS (unit in metres), so if we say we want to travel 500 metres, it actually helps us travel 500 metres. The calculations become more accurate. It helps us build a perfectly regular grid in metric units. 
 
 
